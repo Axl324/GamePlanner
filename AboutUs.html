@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel = "stylesheet" href = "styles.css">
+    <title>About Us</title>
+</head>
+
+
+<body>
+    <header>
+        <figure>
+            <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
+            <figcaption>
+                Game Planner+
+            </figcaption>
+        </figure>
+        <h1>About Us</h1>
+    </header>
+
+    <nav arial-label="Navigation">
+        <ul>
+            <li><a href="Home.html">Home</a></li>
+            <li><a href="Library.html">User Library</a></li>
+            <li><a href="GameExplorer.html">Game Explorer</a></li>
+            <li><a href="Guide.html">Guide</a></li>
+            <li><a href="AboutUs.html">About</a></li>
+        </ul>
+    </nav>
+
+    <section>
+            <h2>Who we are</h2>
+            <p>
+                We are a team of students from La Salle URL who love video games and know the problem well: a backlog
+                that keeps growing while our free time does not.
+            </p>
+    </section>
+
+     <section>
+        <h2>Our mission</h2>
+        <p>
+            Help players organize the games they own, keep track of the time they spend on each one and spend less
+            time deciding what to play and more time playing.
+        </p>
+    </section>
+ 
+    <section>
+        <h2>Our vision</h2>
+        <p>
+            We want GamePlanner+ to be a simple, free and private place where any player can turn a forgotten list of
+            games into a clear plan. Your data stays in your browser, and no account is needed.
+        </p>
+    </section>
+
+    <section id="team">
+        <h2>The team</h2>
+ 
+        <article class="team-card">
+            <h3>Axel Boleda</h3>
+            <p>CEO</p>
+            <figure>
+		    <img src="images/axel.jpeg" width="150" height="200" alt="Axel Picture">
+		    <figcaption>Axel Boleda</figcaption>
+		    </figure>
+        </article>
+ 
+        <article class="team-card">
+            <h3>Cesar Rodriguez</h3>
+            <p>Development Manager</p>
+            <figure>
+			    <img src="images/cesar.jpeg" width="150" height="200" alt="Cesar Picture">
+			    <figcaption>Cesar Rodriguez</figcaption>
+		    </figure>
+        </article>
+        
+        <article class="team-card">
+            <h3>Guilherme Janson</h3>
+            <p>Receptionist</p>
+            <figure>
+			    <img src="images/guilherme.jpeg" width="150" height="200" alt="Guilherme Picture">
+			    <figcaption>Guilherme Janson</figcaption>
+		    </figure>
+        </article>
+    </section>
+
+     <section id="contact">
+        <h2>Contact us</h2>
+        <p>
+            Do you have a question, an idea or a problem with GamePlanner+? Send us a message and we will answer as soon as possible.
+        </p>
+        <p>All fields are required.</p>
+ 
+        <form>
+            <label for="first-name">First name</label>
+            <input id="first-name" name="first-name" type="text" autocomplete="given-name" required>
+ 
+            <label for="last-name">Last name</label>
+            <input id="last-name" name="last-name" type="text" autocomplete="family-name" required>
+ 
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-help" required>
+            <p id="email-help">Enter an address such as name@example.com.</p>
+ 
+            <label for="message">Message</label>
+            <input id="message" name="message" type="text" minlength="10" aria-describedby="message-help" required>
+            <p id="message-help">Write at least 10 characters.</p>
+ 
+            <button type="submit">Send message</button>
+        </form>
+    </section>
+</body>
+
+
+<footer class="footer">
+	<p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>    
+    <p>2026 GamePlanner+</p>
+</footer>
+
+
+</html>
