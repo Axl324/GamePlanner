@@ -46,6 +46,7 @@
     --border-thin:      1px solid;
     --border-thick:     2px solid;
     --border-accent:    .25rem solid;
+    --border-dashed:    2px dashed;
  
     --size-full:        100%;
     --size-touch:       2.75rem;
@@ -56,10 +57,18 @@
     --width-intro-text: 45rem;
     --width-card-min:   14rem;
     --width-content:    50rem;
+    --width-stat-min:   6rem;
+    --width-game-min:   12rem;
+    --width-field-min:  10rem;
+    --width-cover-min:  15rem;
+    --ratio-cover:      16 / 9;
+    --size-photo:       10rem;
+    --ratio-photo:      3 / 4;
  
     --track-narrow:     1fr;
     --track-wide:       2fr;
     --grow-fill:        1;
+    --grow-wide:        2;
 }
 
 
@@ -231,6 +240,7 @@ section {
 .pricing-card,
 .about figure,
 .collection-card,
+.team-card,
 .panel {
     padding: var(--space-lg);
     border: var(--border-thin) var(--color-border);
@@ -568,13 +578,8 @@ input:hover {
     gap: var(--space-sm);
 }
 
-.collection-card .collection-type {
-    color: var(--color-lime);
-    font-family: var(--font-heading);
-    font-size: var(--text-label);
-}
-
-.collection-card .collection-stats {
+.collection-stats,
+.game-meta {
     color: var(--color-text);
     font-size: var(--text-small);
     font-weight: var(--weight-bold);
@@ -595,6 +600,10 @@ input:hover {
 .card-actions a {
     flex-basis: var(--size-full);
 }
+
+
+
+
 
 
 
@@ -711,6 +720,109 @@ input:hover {
 
 
 
+
+
+
+
+
+
+/* Game Explorer */
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-md);
+}
+
+.search-bar .field {
+    flex-grow: var(--grow-fill);
+    flex-basis: var(--width-field-min);
+}
+
+.search-bar .search-field {
+    flex-grow: var(--grow-wide);
+}
+
+.search-bar .button {
+    flex-grow: var(--grow-fill);
+}
+
+.sort-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.sort-bar p {
+    margin-inline-end: var(--space-xs);
+    color: var(--color-text);
+    font-weight: var(--weight-bold);
+}
+
+.empty-state {
+    padding: var(--space-xl) var(--space-lg);
+    border: var(--border-dashed) var(--color-border);
+    border-radius: var(--radius-card);
+    text-align: center;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--size-full), var(--width-card-min)), var(--track-narrow)));
+    gap: var(--space-lg);
+    padding: var(--space-none);
+    list-style: none;
+}
+
+.game-result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border: var(--border-thin) var(--color-border);
+    border-radius: var(--radius-card);
+    background: var(--color-card);
+}
+
+.game-cover {
+    inline-size: var(--size-full);
+    aspect-ratio: var(--ratio-cover);
+    object-fit: cover;
+    border-radius: var(--radius-small);
+}
+
+.game-result .button {
+    margin-block-start: auto;
+}
+
+
+
+
+
+
+/* About Us */
+.team-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+}
+
+.team-photo {
+    inline-size: var(--size-photo);
+    aspect-ratio: var(--ratio-photo);
+    object-fit: cover;
+    margin-block-end: var(--space-sm);
+    border-radius: var(--radius-card);
+}
+ 
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
 
 
 

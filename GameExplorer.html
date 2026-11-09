@@ -4,23 +4,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href="style.css">
     <title>Game Explorer</title>
 </head>
 
 
 <body>
-    <header>
-        <figure>
-            <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
-            <figcaption>
-                Game Planner+
-            </figcaption>
-        </figure>
-        <h1>Game Explorer</h1>
+    <header class="site-header">
+        <div class="container header-bar">
+            <figure>
+                <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
+                <figcaption>
+                    Game Planner+
+                </figcaption>
+            </figure>
+        </div>
     </header>
 
-    <nav arial-label="Navigation">
+    <nav class="nav" id="nav" aria-label="Main">
         <ul>
             <li><a href="Home.html">Home</a></li>
             <li><a href="Library.html">User Library</a></li>
@@ -31,25 +33,59 @@
     </nav>
 
     <main>
+        <section class="intro">
+            <h1>Game Explorer</h1>
+            <p>Find any game in the RAWG database and add it to one of your collections.</p>
+        </section>
+
         <section class="toolbar">
             <h2>Search for a game</h2>
             <p>You can search for games by name, genre, or platform.</p>
-            <form id="search-bar">
-                <label for="search">Search games:</label>
-                <input id="search" name="search" type="text" aria-describedby="search-help">
+            <form class="search-bar" id="search-bar">
+                <div class="field search-field">
+                    <label for="search">Name</label>
+                    <input id="search" name="search" type="text" aria-describedby="search-help">
+                </div>
+                <div class="field">
+                    <label for="genre">Genre</label>
+                    <input id="genre" name="genre" type="text" aria-describedby="search-help">
+                </div>
+                <div class="field">
+                    <label for="platform">Platform</label>
+                    <input id="platform" name="platform" type="text" aria-describedby="search-help">
+                </div>
+                <button class="button" type="submit">Search</button>
             </form>
-            <button type="submit">Search</button>
+
+            <p class="hint" id="search-help">Fill in one or more fields, for example genre "RPG" or platform "PC".</p>
+            <div class="sort-bar">
+                <p>Sort by:</p>
+                <button class="button button-outline button-small" type="button">Rating</button>
+                <button class="button button-outline button-small" type="button">Name</button>
+                <button class="button button-outline button-small" type="button">Release date</button>
+            </div>
         </section>
 
+        <section class="results">
+            <h2>Results</h2>
+            <p class="empty-state" id="results-status">Search for a game to see the results here.</p>
+ 
+            <!-- The JavaScript adds one <li> per game from the RAWG API:
+                <li class="game-result">
+                    <img class="game-cover" src="(image from the API)" width="600" height="338" alt="Cover of (game name)">
+                    <h3>(game name)</h3>
+                    <p class="label">(genre)</p>
+                    <p class="game-meta">Rating: (rating) / 5</p>
+                    <button class="button button-small" type="button">Add to collection</button>
+                </li>
+            -->
+            <ul class="game-grid" id="game-results"></ul>
+        </section>
     </main>
 
+    <footer class="footer">
+        <p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>    
+        <p>2026 GamePlanner+</p>
+    </footer>
 </body>
-
-
-<footer class="footer">
-	<p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>    
-    <p>2026 GamePlanner+</p>
-</footer>
-
-
 </html>
