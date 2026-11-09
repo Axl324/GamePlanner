@@ -4,23 +4,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href = "style.css">
     <title>Collections</title>
 </head>
 
 
 <body>
-    <header>
-        <figure>
-            <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
-            <figcaption>
-                Game Planner+
-            </figcaption>
-        </figure>
-        <h1>Collections</h1>
+    <header class="site-header">
+        <div class="container header-bar">    
+            <figure>
+                <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
+                <figcaption>
+                    Game Planner+
+                </figcaption>
+            </figure>
+        </div>
     </header>
 
-    <nav arial-label="Navigation">
+    <nav class="nav" id="nav" aria-label="Main">
         <ul>
             <li><a href="Home.html">Home</a></li>
             <li><a href="Library.html">User Library</a></li>
@@ -30,15 +32,167 @@
         </ul>
     </nav>
 
+    <main>
+       <section class="intro">
+            <p><a class="back-link" href="Library.html">← Back to My Library</a></p>
+            <h1>Currently Playing</h1>
+            <p class="collection-type">Type: In progress</p>
+            <p>The games I am playing right now and want to finish this month.</p>
+        </section>
 
+        <div class="bento">
+            <ul class="stats" aria-label="Collection summary">
+                <li class="panel stat">
+                    <p class="stat-value">3</p>
+                    <p class="stat-label">Games</p>
+                </li>
+                <li class="panel stat">
+                    <p class="stat-value">4</p>
+                    <p class="stat-label">Sessions</p>
+                </li>
+                <li class="panel stat">
+                    <p class="stat-value">14</p>
+                    <p class="stat-label">Hours played</p>
+                </li>
+            </ul>
 
+            <section class="panel tile-games">
+                <h2>Games</h2>
+
+                <div class="game-list">
+                    <article class="game-card" data-game-id="1">
+                        <h3>Hades</h3>
+                        <p class="game-meta">2 sessions · 6 hours played</p>
+                        <details class="log-session">
+                            <summary class="button button-outline">Log a session</summary>
+                            <form class="session-form">
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label for="date-1">Date (YYYY-MM-DD)</label>
+                                        <input id="date-1" name="date" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="hours-1">Hours played</label>
+                                        <input id="hours-1" name="hours" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="notes-1">Notes or progress</label>
+                                        <input id="notes-1" name="notes">
+                                    </div>
+                                </div>
+                                <button class="button" type="submit">Save session</button>
+                            </form>
+                        </details>
+                        <button class="button button-danger" type="button">Remove game</button>
+                    </article>
+
+                    <article class="game-card" data-game-id="2">
+                        <h3>Celeste</h3>
+                        <p class="game-meta">1 session · 3 hours played</p>
+                        <details class="log-session">
+                            <summary class="button button-outline">Log a session</summary>
+                            <form class="session-form">
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label for="date-2">Date (YYYY-MM-DD)</label>
+                                        <input id="date-2" name="date" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="hours-2">Hours played</label>
+                                        <input id="hours-2" name="hours" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="notes-2">Notes or progress</label>
+                                        <input id="notes-2" name="notes">
+                                    </div>
+                                </div>
+                                <button class="button" type="submit">Save session</button>
+                            </form>
+                        </details>
+                        <button class="button button-danger" type="button">Remove game</button>
+                    </article>
+
+                    <article class="game-card" data-game-id="3">
+                        <h3>Stardew Valley</h3>
+
+                        <p class="game-meta">1 session · 5 hours played</p>
+                        <details class="log-session">
+                            <summary class="button button-outline">Log a session</summary>
+                            <form class="session-form">
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label for="date-3">Date (YYYY-MM-DD)</label>
+                                        <input id="date-3" name="date" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="hours-3">Hours played</label>
+                                        <input id="hours-3" name="hours" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="notes-3">Notes or progress</label>
+                                        <input id="notes-3" name="notes">
+                                    </div>
+                                </div>
+                                <button class="button" type="submit">Save session</button>
+                            </form>
+                        </details>
+                        <button class="button button-danger" type="button">Remove game</button>
+                    </article>
+                </div>
+            </section>
+
+            <section class="panel tile-add">
+                <h2>Add a game</h2>
+
+                <form class="field" id="add-game-form">
+                    <label for="game-title">Game title</label>
+                    <input id="game-title" name="title" required aria-describedby="game-title-hint">
+                    <p class="hint" id="game-title-hint">You can also add games from the Game Explorer.</p>
+                    <button class="button" type="submit">Add game</button>
+                </form>
+            </section>
+
+            <section class="panel tile-sessions">
+                <h2>Sessions</h2>
+
+                <ol class="session-list">
+                    <li class="session" data-session-id="3">
+                        <p class="label">2026-11-03</p>
+                        <p class="session-game">Celeste</p>
+                        <p>3 hours · Finished chapter 3</p>
+                        <div class="card-actions">
+                            <button class="button button-outline button-small" type="button">Edit</button>
+                            <button class="button button-danger button-small" type="button">Delete</button>
+                        </div>
+                    </li>
+
+                    <li class="session" data-session-id="2">
+                        <p class="label">2026-11-02</p>
+                        <p class="session-game">Hades</p>
+                        <p>4 hours · First escape attempts</p>
+                        <div class="card-actions">
+                            <button class="button button-outline button-small" type="button">Edit</button>
+                            <button class="button button-danger button-small" type="button">Delete</button>
+                        </div>
+                    </li>
+
+                    <li class="session" data-session-id="1">
+                        <p class="label">2026-10-30</p>
+                        <p class="session-game">Stardew Valley</p>
+                        <p>5 hours · Finished the first spring</p>
+                        <div class="card-actions">
+                            <button class="button button-outline button-small" type="button">Edit</button>
+                            <button class="button button-danger button-small" type="button">Delete</button>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>
+        <p>2026 GamePlanner+</p>
+    </footer>
 </body>
-
-
-<footer class="footer">
-	<p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>    
-    <p>2026 GamePlanner+</p>
-</footer>
-
-
 </html>
