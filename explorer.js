@@ -6,6 +6,7 @@ const MAX_SEND_BACK = 12;
 const searchForm = document.querySelector("#search-bar");
 const sortBar = document.querySelector("#sort-bar");
 const statusBox = document.querySelector("#results-status");
+const loadMoreArea = document.querySelector("#load-more-data");
 const list = document.querySelector("#game-results");
 const ratingButton = document.querySelector('[data-sort="rating"]');
 const nameButton = document.querySelector('[data-sort="name"]');
@@ -22,7 +23,11 @@ const state = {
     name: "",
     genre: "all",
     platform: "all",
-    sort: null
+    sort: null,
+    page: 1,
+    hasMore: false,
+    loadingMore: false,
+    loadMoreError: null
 };
 
 function messageFor(error) {
@@ -33,7 +38,7 @@ function messageFor(error) {
 }
 
 function buildUrl() {
-    let url = BASE_URL + "?key=" + RAWG_API_KEY + "&page_size=" + MAX_SEND_BACK;
+    let url = BASE_URL + "?key=" + RAWG_API_KEY + "&page_size=" + MAX_SEND_BACK + "&page=" + state.page;
 
     if (state.name !== "") {
         url += "&search=" + state.name;
@@ -58,25 +63,53 @@ async function requestGame() {
         throw new Error("Invalid games data");
     }
 
-    return data.results;
+    return data;
 }
 
 async function loadGames() {
     const submitButton = searchForm.querySelector("button");
     submitButton.disabled = true;
 
+    state.page = 1;
     state.loading = true;
     state.error = null;
+    state.loadMoreError = null;
     render();
 
     try {
-        state.games = await requestGame();
+        const data = await requestGame();
+        state.games = data.results;
+        state.hasMore = data.next ? true : false;
         state.error = null;
     } catch (error) {
         state.games = [];
+        state.hasMore = false;
         state.error = messageFor(error);
     } finally {
         state.loading = false;
+        submitButton.disabled = false;
+        render();
+    }
+}
+
+async function loadMore() {
+    const submitButton = searchForm.querySelector("button");
+    submitButton.disabled = true;
+
+    state.page = state.page + 1;
+    state.loadingMore = true;
+    state.loadMoreError = null;
+    render();
+
+    try {
+        const data = await requestGame();
+        state.games = [...state.games, ...data.results];
+        state.hasMore = data.next ? true : false;
+    } catch (error) {
+        state.page = state.page - 1;
+        state.loadMoreError = messageFor(error);
+    } finally {
+        state.loadingMore = false;
         submitButton.disabled = false;
         render();
     }
@@ -151,10 +184,27 @@ function renderSortButtons() {
     markSortButton(releasedButton);
 }
 
+function renderLoadMore() {
+    loadMoreArea.textContent = "";
+
+    if (!state.hasMore || state.loading || state.error) {
+        return;
+    }
+
+    const button = document.createElement("button");
+    button.className = "button";
+    button.type = "button";
+    button.dataset.loadMore = "";
+    button.disabled = state.loadingMore;
+    button.textContent = state.loadingMore ? "Loading more games…" : "Load more";
+    loadMoreArea.append(button);
+}
+
 function render() {
     statusBox.textContent = "";
     list.textContent = "";
     renderSortButtons();
+    renderLoadMore();
 
     if (state.loading) {
         statusBox.textContent = "Loading games…";
@@ -179,7 +229,11 @@ function render() {
         return;
     }
 
-    statusBox.textContent = state.games.length + " games found.";
+    if (state.loadMoreError) {
+        statusBox.textContent = state.loadMoreError;
+    } else {
+        statusBox.textContent = "Showing " + state.games.length + " games.";
+    }
     list.append(...sortGames(state.games, state.sort).map(createGame));
 }
 
@@ -188,6 +242,12 @@ statusBox.addEventListener("click", (event) => {
     const button = event.target.closest("[data-retry]");
     if (!button || !statusBox.contains(button)) return;
     loadGames();
+});
+
+loadMoreArea.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-load-more]");
+    if (!button || !loadMoreArea.contains(button)) return;
+    loadMore();
 });
 
 sortBar.addEventListener("click", (event) => {
