@@ -4,23 +4,25 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href = "style.css">
     <title>Collections</title>
 </head>
 
 
 <body>
-    <header>
-        <figure>
-            <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
-            <figcaption>
-                Game Planner+
-            </figcaption>
-        </figure>
-        <h1>Collections</h1>
+    <header class="site-header">
+        <div class="container header-bar">    
+            <figure>
+                <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
+                <figcaption>
+                    Game Planner+
+                </figcaption>
+            </figure>
+        </div>
     </header>
 
-    <nav arial-label="Navigation">
+    <nav class="nav" id="nav" aria-label="Main">
         <ul>
             <li><a href="Home.html">Home</a></li>
             <li><a href="Library.html">User Library</a></li>
@@ -30,15 +32,100 @@
         </ul>
     </nav>
 
+    <main>
+        <section class="intro">
+            <p><a class="back-link" href="Library.html">← Back to My Library</a></p>
+            <!-- The JavaScript replaces the name and fills the type and description of the open collection. -->
+            <h1 id="collection-name">Collection</h1>
+            <p class="collection-type" id="collection-type"></p>
+            <p id="collection-description"></p>
+        </section>
 
+        <div class="bento">
+            <!-- The JavaScript updates these numbers from the saved data. -->
+            <ul class="stats" aria-label="Collection summary">
+                <li class="panel stat">
+                    <p class="stat-value" id="stat-games">0</p>
+                    <p class="stat-label">Games</p>
+                </li>
+                <li class="panel stat">
+                    <p class="stat-value" id="stat-sessions">0</p>
+                    <p class="stat-label">Sessions</p>
+                </li>
+                <li class="panel stat">
+                    <p class="stat-value" id="stat-hours">0</p>
+                    <p class="stat-label">Hours played</p>
+                </li>
+            </ul>
+ 
+            <section class="panel tile-games">
+                <h2>Games</h2>
+                <p class="empty-state" id="games-status">No games in this collection yet. Add one with the form or from the Game Explorer.</p>
+ 
+                <!-- The JavaScript adds one <article> per game (replace ID with the game's id so every field id is unique):
+                    <article class="game-card" data-game-id="ID">
+                        <h3>(game name)</h3>
+                        <p class="game-meta">(sessions) sessions · (hours) hours played</p>
+                        <details class="log-session">
+                            <summary class="button button-outline">Log a session</summary>
+                            <form class="session-form">
+                                <div class="form-grid">
+                                    <div class="field">
+                                        <label for="date-ID">Date (YYYY-MM-DD)</label>
+                                        <input id="date-ID" name="date" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="hours-ID">Hours played</label>
+                                        <input id="hours-ID" name="hours" required>
+                                    </div>
+                                    <div class="field">
+                                        <label for="notes-ID">Notes or progress</label>
+                                        <input id="notes-ID" name="notes">
+                                    </div>
+                                </div>
+                                <button class="button" type="submit">Save session</button>
+                            </form>
+                        </details>
+                        <button class="button button-danger" type="button">Remove game</button>
+                    </article>
+                -->
+                <div class="game-list" id="game-list"></div>
+            </section>
+ 
+            <section class="panel tile-add">
+                <h2>Add a game</h2>
+ 
+                <form class="field" id="add-game-form">
+                    <label for="game-title">Game title</label>
+                    <input id="game-title" name="title" required aria-describedby="game-title-hint">
+                    <p class="hint" id="game-title-hint">You can also add games from the Game Explorer.</p>
+                    <button class="button" type="submit">Add game</button>
+                </form>
+            </section>
+ 
+            <section class="panel tile-sessions">
+                <h2>Sessions</h2>
+                <p class="empty-state" id="sessions-status">No sessions logged yet. Use "Log a session" on any game.</p>
+ 
+                <!-- The JavaScript adds one <li> per session, newest first:
+                    <li class="session" data-session-id="ID">
+                        <p class="label">(date, YYYY-MM-DD)</p>
+                        <p class="session-game">(game name)</p>
+                        <p>(hours) hours · (notes)</p>
+                        <div class="card-actions">
+                            <button class="button button-outline button-small" type="button">Edit</button>
+                            <button class="button button-danger button-small" type="button">Delete</button>
+                        </div>
+                    </li>
+                -->
+                <ol class="session-list" id="session-list"></ol>
+            </section>
+        </div>
+    </main>
 
+    <footer class="footer">
+        <p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>
+        <p>2026 GamePlanner+</p>
+    </footer>
 </body>
-
-
-<footer class="footer">
-	<p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>    
-    <p>2026 GamePlanner+</p>
-</footer>
-
-
 </html>

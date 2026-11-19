@@ -4,23 +4,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel = "stylesheet" href = "styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+    <link rel="stylesheet" href = "style.css">
     <title>My Library</title>
 </head>
 
 
 <body>
-    <header>
-        <figure>
-            <img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
-            <figcaption>
-                Game Planner+
-            </figcaption>
-        </figure>
-        <h1>My Library</h1>
+    <header class="site-header">
+		<div class="container header-bar">
+			<figure>
+				<img src="images/icon.svg" height="130" width="195" alt="GamePlannerLogo">
+				<figcaption>
+					Game Planner+
+				</figcaption>
+			</figure>
+		</div>
     </header>
 
-    <nav arial-label="Navigation">
+
+    <nav class="nav" id="nav" aria-label="Main">
         <ul>
             <li><a href="Home.html">Home</a></li>
             <li><a href="Library.html">User Library</a></li>
@@ -31,39 +34,45 @@
     </nav>
 
     <main>
-         <section class="collection-list">
+        <section class="intro">
+            <h1>My Library</h1>
+            <p>Organize your games into collections and keep track of the hours you play.</p>
+        </section>
+
+        <section class="collection-list">
             <h2>My collections</h2>
             
-            <article class="collection-card" data-collection-id="1">
-                <h3>Currently Playing</h3>
-                <p>Type: In progress</p>
-                <p>The games I am playing right now and want to finish this month.</p>
-                <p>3 games · 14 hours played</p>
-                <a href="Collection.html">Open Currently Playing</a>
-                <button type="button">Edit</button>
-                <button type="button">Delete</button>
-            </article>
+            <div class="card-grid">
+                <article class="collection-card" data-collection-id="1">
+                    <h3>Currently Playing</h3>
+                    <p class="collection-type">Type: In progress</p>
+                    <p>The games I am playing right now and want to finish this month.</p>
+                    <p class="collection-stats">3 games · 14 hours played</p>
+                    <div class="card-actions">
+                        <a class="button" href="Collection.html">Open Currently Playing</a>
+                        <button class="button button-outline" type="button">Edit</button>
+                        <button class="button button-danger" type="button">Delete</button>
+                    </div>
+                </article>
 
-            <article class="collection-card" data-collection-id="2">
-                <h3>Pending</h3>
-                <p>Type: Backlog</p>
-                <p>Games I already own but have not started yet.</p>
-                <p>5 games · 0 hours played</p>
-                <a href="Collection.html">Open Pending</a>
-                <button type="button">Edit</button>
-                <button type="button">Delete</button>
-            </article>
+                <article class="collection-card" data-collection-id="2">
+                    <h3>Pending</h3>
+                    <p class="collection-type">Type: Backlog</p>
+                    <p>Games I already own but have not started yet.</p>
+                    <p class="collection-stats">5 games · 0 hours played</p>
+                    <div class="card-actions">
+                        <a class="button" href="Collection.html">Open Pending</a>
+                        <button class="button button-outline" type="button">Edit</button>
+                        <button class="button button-danger" type="button">Delete</button>
+                    </div>
+                </article>
+            </div>
         </section>
     </main>
 
-
+    <footer class="footer">
+        <p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>    
+        <p>2026 GamePlanner+</p>
+    </footer>
 </body>
-
-
-<footer class="footer">
-	<p>GamePlanner+ helps you organize your video game backlog and decide what to play next.</p>    
-    <p>2026 GamePlanner+</p>
-</footer>
-
-
 </html>
