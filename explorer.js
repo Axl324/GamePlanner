@@ -1,3 +1,5 @@
+import { loadCollections, saveCollections } from "./storage.js";
+
 const RAWG_API_KEY = "7029afa004464b2ca94697bdee83bb5b";
 
 const BASE_URL = "https://api.rawg.io/api/games";
@@ -12,7 +14,7 @@ const ratingButton = document.querySelector('[data-sort="rating"]');
 const nameButton = document.querySelector('[data-sort="name"]');
 const releasedButton = document.querySelector('[data-sort="released"]');
 
-if (!searchForm || !sortBar || !statusBox || !list || !ratingButton || !nameButton || !releasedButton) {
+if (!searchForm || !sortBar || !statusBox || !loadMoreArea || !list || !ratingButton || !nameButton || !releasedButton) {
     throw new Error("Game Explorer page is missing a required element");
 }
 
@@ -27,7 +29,10 @@ const state = {
     page: 1,
     hasMore: false,
     loadingMore: false,
-    loadMoreError: null
+    loadMoreError: null,
+    collections: loadCollections(),
+    openGameId: null,
+    cardMessage: null
 };
 
 function messageFor(error) {
@@ -115,6 +120,13 @@ async function loadMore() {
     }
 }
 
+function firstGenreofGame(game) {
+    if (Array.isArray(game.genres) && game.genres.length > 0) {
+        return game.genres[0].name;
+    }
+    return "not available";
+}
+
 function sortGames(games, sort) {
     if (sort === "rating") {
         return [...games].sort((a, b) => (a.rating > b.rating ? -1 : 1));
@@ -128,6 +140,55 @@ function sortGames(games, sort) {
     return [...games];
 }
 
+function isInCollection(collection, gameId) {
+    if (!Array.isArray(collection.games)) return false;
+    return collection.games.some(savedGame => savedGame.id === gameId);
+}
+
+function createCollectionSelecter(game) {
+    const selecter = document.createElement("div");
+    selecter.className = "collection-selecter";
+
+    if (state.collections.length === 0) {
+        const message = document.createElement("p");
+        message.textContent = "You have no collections yet. ";
+
+        const link = document.createElement("a");
+        link.href = "Library.html";
+        link.textContent = "Create one in My Library";
+
+        message.append(link);
+        selecter.append(message);
+    }
+    else {
+        const label = document.createElement("p");
+        label.textContent = "Add to:";
+        selecter.append(label);
+
+        for (const collection of state.collections) {
+            const added = isInCollection(collection, game.id);
+            const button = document.createElement("button");
+            
+            button.className = "button button-small";
+            button.type = "button";
+            button.dataset.addTo = collection.id;
+            button.dataset.gameId = game.id;
+            button.textContent = added ? "✓ " + collection.name : collection.name;
+            button.disabled = added;
+
+            selecter.append(button);
+        }
+    }
+
+    const cancel = document.createElement("button");
+    cancel.className = "button button-outline button-small";
+    cancel.type = "button";
+    cancel.dataset.closeSelecter = "";
+    cancel.textContent = "Cancel";
+    selecter.append(cancel);
+
+    return selecter;
+}
 
 function createGame(game) {
     const item = document.createElement("li");
@@ -151,24 +212,35 @@ function createGame(game) {
     details.className = "game-details";
 
     const genre = document.createElement("li");
-    let firstGenre = "not available";
-    if (Array.isArray(game.genres) && game.genres.length > 0) {
-        firstGenre = game.genres[0].name;
-    }
-    genre.textContent = "Genre: " + firstGenre;
+    genre.textContent = "Genre: " + firstGenreofGame(game);
 
     const rating = document.createElement("li");
     rating.textContent = game.rating > 0 ? "Rating: " + game.rating + " / 5" : "Rating: no rating yet";
 
     details.append(genre, rating);
 
-    const addButton = document.createElement("button");
-    addButton.className = "button button-small";
-    addButton.type = "button";
-    addButton.dataset.addGame = game.id;
-    addButton.textContent = "Add to collection";
+    item.append(title, details);
 
-    item.append(title, details, addButton);
+    if (state.openGameId === game.id) {
+        item.append(createCollectionSelecter(game));
+    }
+    else {
+        const addButton = document.createElement("button");
+
+        addButton.className = "button button-small";
+        addButton.type = "button";
+        addButton.dataset.openSelecter = game.id;
+        addButton.textContent = "Add to collection";
+        item.append(addButton);
+    }
+
+    if (state.cardMessage && state.cardMessage.gameId === game.id) {
+        const message = document.createElement("p");
+        message.className = "add-message";
+        message.textContent = state.cardMessage.text;
+        item.append(message);
+    }
+
     return item;
 }
 
@@ -198,6 +270,60 @@ function renderLoadMore() {
     button.disabled = state.loadingMore;
     button.textContent = state.loadingMore ? "Loading more games…" : "Load more";
     loadMoreArea.append(button);
+}
+
+function openSelecter(gameId) {
+    state.collections = loadCollections();
+    state.openGameId = gameId;
+    state.cardMessage = null;
+    render();
+}
+
+function closeSelecter() {
+    state.openGameId = null;
+    render();
+}
+
+function addLocalGames(gameId, collectionId) {
+    const game = state.games.find(result => result.id === gameId);
+
+    state.collections = loadCollections();
+    const target = state.collections.find(collection => collection.id === collectionId);
+    
+    state.openGameId = null;
+    
+    if(!game || !target) {
+        state.cardMessage = {gameId: gameId, text: "That collection no longer exists."};
+        render();
+        return;
+    }
+
+    if(isInCollection(target, gameId)) {
+        state.cardMessage = { gameId: gameId, text: "Already in " + target.name + "." };
+        render();
+        return;
+    }
+
+    const savedGame = {
+        id: game.id,
+        name: game.name,
+        image: game.background_image ?? null,
+        genre: firstGenreofGame(game),
+        rating: game.rating
+    };
+    
+    const previousGames = Array.isArray(target.games) ? target.games : [];
+    target.games = [...previousGames, savedGame];
+
+    if (!saveCollections(state.collections)) {
+        target.games = previousGames;
+        state.cardMessage = { gameId: gameId, text: "It could not be saved. Your browser may be blocking storage." };
+        render();
+        return;
+    }
+
+    state.cardMessage = { gameId: gameId, text: "Added to " + target.name + "." };
+    render();
 }
 
 function render() {
@@ -266,6 +392,25 @@ searchForm.addEventListener("submit", (event) => {
     state.genre = data.genre;
     state.platform = data.platform;
     loadGames();
+});
+
+list.addEventListener("click", (event) => {
+    const openButton = event.target.closest("[data-open-selecter]");
+    if (openButton && list.contains(openButton)) {
+        openSelecter(Number(openButton.dataset.openSelecter));
+        return;
+    }
+
+    const collectionButton = event.target.closest("[data-add-to]");
+    if (collectionButton && list.contains(collectionButton)) {
+        addLocalGames(Number(collectionButton.dataset.gameId), Number(collectionButton.dataset.addTo));
+        return;
+    }
+
+    const cancelButton = event.target.closest("[data-close-selecter]");
+    if (cancelButton && list.contains(cancelButton)) {
+        closeSelecter();
+    }
 });
 
 loadGames();
