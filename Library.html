@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link rel="stylesheet" href = "style.css">
+    <script type="module" src="library.js"></script>
     <title>My Library</title>
 </head>
 
@@ -45,8 +46,13 @@
             
             <form class="collection-name" id="collection-form">
                 <div class="field">
-                    <lable for="collection-name">Name</lable>
+                    <label for="collection-name">Name</label>
                     <input id="collection-name" name="name" type="text" minlength="2" required>
+                </div>
+                <div class="field">
+                    <label for="collection-type">Type</label>
+                    <input id="collection-type" name="type" type="text" required aria-describedby="collection-type-help">
+                    <p class="hint" id="collection-type-help">For example: RPG, To finish, Multiplayer.</p>
                 </div>
                 <div class="field">
                     <label for="collection-description">Description</label>
@@ -54,6 +60,7 @@
                 </div>
                 <button class="button" type="submit">Creat collection</button>
             </form>
+            <p class="form-status" id="collection-form-status"></p>
         </section>
 
         <section class="results">
