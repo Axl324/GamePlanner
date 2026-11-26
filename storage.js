@@ -31,3 +31,37 @@ export function nextCollectionId(collections) {
 
     return nextId;
 }
+
+const CHAT_KEY = "gamePlannerChat";
+
+export function loadChat() {
+    try {
+        const messages = JSON.parse(localStorage.getItem(CHAT_KEY) ?? "[]");
+        if (!Array.isArray(messages)) return [];
+        return messages.filter(message =>
+            (message?.role === "user" || message?.role === "model") && typeof message.text === "string");
+    }
+    catch {
+        return [];
+    }
+}
+
+export function saveChat(messages) {
+    try {
+        localStorage.setItem(CHAT_KEY, JSON.stringify(messages));
+        return true;
+    }
+    catch {
+        return false;
+    }
+}
+
+export function clearChat() {
+    try {
+        localStorage.removeItem(CHAT_KEY);
+        return true;
+    }
+    catch {
+        return false;
+    }
+}

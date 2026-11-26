@@ -824,6 +824,55 @@ input:hover {
     gap: var(--space-lg);
 }
 
+.chat-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.chat-log {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    max-block-size: 60vh;
+    overflow-y: auto;
+    padding: var(--space-md);
+    border: var(--border-thin) var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-page);
+    list-style: none;
+}
+
+.message {
+    max-inline-size: 80%;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-card);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.message-user {
+    align-self: flex-end;
+    border-end-end-radius: var(--radius-small);
+    background: var(--color-lime);
+    color: var(--color-page);
+}
+
+.message-bot {
+    align-self: flex-start;
+    border: var(--border-thin) var(--color-border);
+    border-end-start-radius: var(--radius-small);
+    background: var(--color-card);
+    color: var(--color-text);
+}
+
+.message-pending {
+    color: var(--color-muted);
+    font-style: italic;
+}
+
 
 
 @media (width >= 48rem) {
