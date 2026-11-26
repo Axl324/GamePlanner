@@ -70,6 +70,10 @@ function messageFor(error) {
     return "GameGuide could not be reached. Check your connection and try again.";
 }
 
+function logResponse(status, data) {
+    console.log("Gemini response (HTTP " + status + "):\n" + JSON.stringify(data, null, 2));
+}
+
 async function askGemini(messages) {
     const response = await fetch(GEMINI_URL, {
         method: "POST",
@@ -90,15 +94,18 @@ async function askGemini(messages) {
         let detail = "";
         try {
             const data = await response.json();
+            logResponse(response.status, data);
             detail = data?.error?.message ?? "";
         }
         catch {
             // The error body was not JSON; the status code is enough.
+            logResponse(response.status, null);
         }
         throw new GeminiError(response.status, detail);
     }
 
     const data = await response.json();
+    logResponse(response.status, data);
     const parts = data?.candidates?.[0]?.content?.parts;
     const text = Array.isArray(parts) ? parts.map(part => part.text ?? "").join("").trim() : "";
 

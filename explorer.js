@@ -58,13 +58,20 @@ function buildUrl() {
     return url;
 }
 
+function logResponse(status, data) {
+    console.log("RAWG response (HTTP " + status + "):\n" + JSON.stringify(data, null, 2));
+}
+
 async function requestGame() {
     const response = await fetch(buildUrl());
     if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        logResponse(response.status, body);
         throw new Error("HTTP " + response.status);
     }
 
     const data = await response.json();
+    logResponse(response.status, data);
     if (!Array.isArray(data.results)) {
         throw new Error("Invalid games data");
     }
