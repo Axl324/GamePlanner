@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="guide.js"></script>
     <title>Game Guide</title>
 </head>
 
@@ -41,20 +42,28 @@
             </p>
         </section>
 
+        <section class="panel chat narrow">
+            <div class="chat-header">
+                <h2>Chat with GameGuide</h2>
+                <button class="button button-outline button-small" type="button" id="chat-reset">New chat</button>
+            </div>
 
+            <!-- The JavaScript adds one <li> per message, oldest first:
+                <li class="message message-user">(what the user wrote)</li>
+                <li class="message message-bot">(GameGuide's reply)</li>
+            -->
+            <ol class="chat-log" id="chat-log" aria-live="polite"></ol>
+            <p class="form-status" id="chat-status" role="status"></p>
 
-
-
-
-
-
-
-
-
-
-
-
-        
+            <form class="field" id="chat-form">
+                <label for="chat-input">Your message</label>
+                <div class="input-row">
+                    <input id="chat-input" name="message" type="text" required maxlength="500"
+                        autocomplete="off" placeholder="I like RPGs and have 2 hours a week…">
+                    <button class="button" type="submit">Send</button>
+                </div>
+            </form>
+        </section>
 
         <section class="notice narrow">
             <h2>About GameGuide</h2>
