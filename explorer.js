@@ -1,6 +1,7 @@
 import { loadCollections, saveCollections } from "./storage.js";
 
-const RAWG_API_KEY = "7029afa004464b2ca94697bdee83bb5b";
+const config = await import("./config.js").catch(() => null);
+const RAWG_API_KEY = config?.RAWG_API_KEY ?? "";
 
 const BASE_URL = "https://api.rawg.io/api/games";
 const MAX_SEND_BACK = 12;
@@ -37,7 +38,7 @@ const state = {
 
 function messageFor(error) {
     if (error.message === "HTTP 401") {
-        return "The RAWG API key is missing or not valid. Check RAWG_API_KEY in explorer.js.";
+        return "The RAWG API key is missing or not valid. Check RAWG_API_KEY in config.js.";
     }
     return "The games could not be loaded (" + error.message + "). Check your connection and try again.";
 }
@@ -413,4 +414,14 @@ list.addEventListener("click", (event) => {
     }
 });
 
-loadGames();
+if (!config) {
+    state.error = "Missing config.js. Copy config.example.js to config.js and add your API keys.";
+    render();
+}
+else if (RAWG_API_KEY === "") {
+    state.error = "The RAWG API key is missing. Add RAWG_API_KEY to config.js.";
+    render();
+}
+else {
+    loadGames();
+}
