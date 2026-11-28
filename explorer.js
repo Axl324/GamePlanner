@@ -173,7 +173,7 @@ function createCollectionSelecter(game) {
             button.type = "button";
             button.dataset.addTo = collection.id;
             button.dataset.gameId = game.id;
-            button.textContent = added ? "✓ " + collection.name : collection.name;
+            button.textContent = added ? "Is in " + collection.name : collection.name;
             button.disabled = added;
 
             selecter.append(button);
