@@ -192,7 +192,7 @@ function createCollectionSelecter(game) {
 
 function createGame(game) {
     const item = document.createElement("li");
-    item.className = "game-card";
+    item.className = "game-result";
     item.dataset.gameId = game.id;
 
     if (game.background_image) {

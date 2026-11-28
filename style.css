@@ -134,7 +134,8 @@ a:hover {
 
 a:focus-visible,
 button:focus-visible,
-input:focus-visible, 
+input:focus-visible,
+select:focus-visible,
 summary:focus-visible {
     outline: var(--border-thick) var(--color-lime);
     outline-offset: var(--space-outline);
@@ -385,11 +386,6 @@ input:hover {
 
 
 
-
-
-
-
-
 .intro {
     align-items: center;
     gap: var(--space-lg);
@@ -572,17 +568,75 @@ input:hover {
 
 
 /* Library */
+.collection-grid {
+    display: grid;
+    grid-template-columns: var(--track-narrow);
+    gap: var(--space-lg);
+    padding: var(--space-none);
+    list-style: none;
+}
+
 .collection-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    min-inline-size: 0;
+}
+
+.collection-games {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(var(--size-full), var(--width-stat-min)), var(--track-narrow)));
+    gap: var(--space-sm);
+    padding: var(--space-none);
+    list-style: none;
+}
+
+.collection-game {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-inline-size: 0;
+}
+
+.game-thumb {
+    inline-size: var(--size-full);
+    aspect-ratio: var(--ratio-cover);
+    object-fit: cover;
+    border-radius: var(--radius-small);
+}
+
+.collection-game p {
+    font-size: var(--text-small);
+}
+
+.collection-stats,
+.collection-meta,
+.game-meta {
+    color: var(--color-text);
+    font-size: var(--text-small);
+    font-weight: var(--weight-bold);
+}
+
+.collection-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-block-start: auto;
+}
+
+.collection-edit-form {
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
 }
 
-.collection-stats,
-.game-meta {
-    color: var(--color-text);
-    font-size: var(--text-small);
-    font-weight: var(--weight-bold);
+.collection-confirm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border: var(--border-dashed) var(--color-border);
+    border-radius: var(--radius-small);
 }
 
 .card-actions {
@@ -754,6 +808,21 @@ input:hover {
     gap: var(--space-xs);
 }
 
+.search-bar input, .search-bar select {
+    inline-size: var(--size-full);
+    min-block-size: var(--size-touch);
+    padding: var(--space-sm) var(--space-md);
+    border: var(--border-thin) var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-card);
+    color: var(--color-text);
+    font: inherit;
+}
+
+.search-bar select {
+    cursor: pointer;
+}
+
 .sort-bar p {
     margin-inline-end: var(--space-xs);
     color: var(--color-text);
@@ -869,5 +938,24 @@ input:hover {
             "games    add"
             "sessions sessions";
         grid-template-columns: var(--track-wide) var(--track-narrow);
+    }
+
+    .collection-grid {
+        grid-template-columns: repeat(2, var(--track-narrow));
+    }
+
+    .collection-card[data-size="wide"],
+    .collection-card[data-size="large"] {
+        grid-column: span 2;
+    }
+}
+
+@media (width >= 64rem) {
+    .collection-grid {
+        grid-template-columns: repeat(4, var(--track-narrow));
+    }
+
+    .collection-card[data-size="large"] {
+        grid-row: span 2;
     }
 }
